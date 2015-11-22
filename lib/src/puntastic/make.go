@@ -1,10 +1,10 @@
 package puntastic
 
 import (
+	"bufio"
 	"bytes"
 	"encoding/gob"
-	"bufio"
-    "golang.org/x/mobile/asset"
+	"golang.org/x/mobile/asset"
 	"math/rand"
 	"strconv"
 	"strings"
@@ -22,32 +22,30 @@ type Pun struct {
 var pos map[int]int
 var end map[int]bool
 
-var vowels []string = []string{"a", "e", "i", "o", "u"}
-var avoidSuccesion []string = []string{"a", "u", "w"}
+var lastPos int
+
 var lastInput string
+var lastSyl int
 
 var isLoaded = false
 
 var dict dictionary
 
-func Load(filename string){
+func Load(filename string) {
 
-    file,_:= asset.Open(filename)
+	file, _ := asset.Open(filename)
 
-    //fmt.Println(err)
-    //file,_ := os.Open("out.gob")
+	scanner := bufio.NewReader(file)
 
-    scanner := bufio.NewReader(file)
+	var maxSize int = 300000
 
-    var maxSize int = 300000
+	var fileData []byte = make([]byte, maxSize)
 
-    var fileData []byte = make([]byte, maxSize)
+	size, _ := scanner.Read(fileData)
 
-    size,_ := scanner.Read(fileData);
+	fileData = fileData[:size]
 
-    fileData = fileData[:size]
-
-    var buf bytes.Buffer = *bytes.NewBuffer(fileData)
+	var buf bytes.Buffer = *bytes.NewBuffer(fileData)
 
 	dec := gob.NewDecoder(&buf)
 
@@ -91,14 +89,10 @@ func Get(input string) *Pun {
 	var generatedPun string
 	var basisWord string
 
-	//fmt.Println(generatedPun)
-	//fmt.Println("gp")
-
 	for {
 		var endOfDict bool = true
 
 		for k, v := range pos {
-			//fmt.Println(k)
 			if v < len(dict.Words[k]) {
 				endOfDict = false
 				//break
@@ -116,7 +110,6 @@ func Get(input string) *Pun {
 		}
 
 		var random int = rand.Intn(82)
-		//fmt.Println(random)
 
 		if !end[2] && (((len(input) < 4) && (random < 10)) || ((len(input) >= 4) && (random < 3))) {
 			// ( 10% / 3% ) generate from two syllables
@@ -161,9 +154,9 @@ func Get(input string) *Pun {
 				end[8] = true
 			}
 		}
-        if (generatedPun != "EOF") && (generatedPun != ""){
-            break
-        }
+		if (generatedPun != "EOF") && (generatedPun != "") {
+			break
+		}
 	}
 	return &Pun{generatedPun, basisWord}
 }
@@ -174,13 +167,20 @@ func searchForPun(input string, syl int) (string, string) {
 	var generatedPun string
 	var dictWord string
 
-	//fmt.Println("sfp")
+	for ; pos[syl] < len(dict.Words[syl]); pos[syl]++ {
 
-	for _, syllableSlices := range dict.Words[syl] {
+		if (pos[syl] == lastPos) && (pos[syl] < len(dict.Words[syl])) && (lastSyl == syl) {
+			pos[syl]++
+		}
+
+		lastPos = pos[syl]
+		lastSyl = syl
+
+		var syllableSlices []string = dict.Words[syl][pos[syl]]
 
 		generatedPun = compareInputAndLine(input, syllableSlices)
 
-        dictWord = ""
+		dictWord = ""
 
 		for i := 0; i < len(syllableSlices); i++ {
 			dictWord += syllableSlices[i]
