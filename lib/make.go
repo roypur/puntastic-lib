@@ -67,7 +67,7 @@ func rewind() {
 	}
 }
 
-func GeneratePun(input string) *Pun {
+func Get(input string) *Pun {
 	if !isLoaded {
 		return &Pun{"Dictionary not loaded", ""}
 	}
