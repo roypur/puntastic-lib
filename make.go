@@ -167,7 +167,7 @@ func searchForPun(input string, syl int) (string, string) {
 	var generatedPun string
 	var dictWord string
 
-	for ; pos[syl] < len(dict.Words[syl]); pos[syl]++ {
+	for pos[syl] < len(dict.Words[syl]){
 
 		if (pos[syl] == lastPos) && (pos[syl] < len(dict.Words[syl])) && (lastSyl == syl) {
 		    return "EOF", "EOF"
@@ -179,6 +179,8 @@ func searchForPun(input string, syl int) (string, string) {
 		var syllableSlices []string = dict.Words[syl][pos[syl]]
 
 		generatedPun = compareInputAndLine(input, syllableSlices)
+
+        pos[syl]++
 
 		dictWord = ""
 
@@ -417,7 +419,7 @@ func compareInputAndLine(input string, line []string) string {
 						compareScore += 4
 					}
 				}
-			} else if (len(nextSyllable) >= 3) || (len(nextSyllable) < 5) {
+			} else if (len(nextSyllable) == 3) || (len(nextSyllable) == 4) {
 				// case 8.2: input is as long as currentAndNextSyllable or is one longer
 				for i := 0; i < len(currentAndNextSyllable); i++ {
 

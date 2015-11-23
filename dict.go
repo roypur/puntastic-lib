@@ -29,6 +29,7 @@ func read()(Dictionary){
             i++
         }
     }
+    fmt.Println(dict);
     return *dict
 }
 
