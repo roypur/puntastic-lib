@@ -170,7 +170,7 @@ func searchForPun(input string, syl int) (string, string) {
 	for ; pos[syl] < len(dict.Words[syl]); pos[syl]++ {
 
 		if (pos[syl] == lastPos) && (pos[syl] < len(dict.Words[syl])) && (lastSyl == syl) {
-			pos[syl]++
+		    return "EOF", "EOF"
 		}
 
 		lastPos = pos[syl]
