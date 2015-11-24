@@ -16,7 +16,7 @@ type dictionary struct {
 }
 type Pun struct {
 	Pun       string
-	BasisWord string
+	BaseWord string
 }
 
 var pos map[int]int
