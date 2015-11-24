@@ -188,7 +188,7 @@ func searchForPun(input string, syl int) (string, string) {
 			dictWord += syllableSlices[i]
 		}
 
-		if generatedPun != "" {
+		if (generatedPun != "") && (generatedPun != dictWord) {
 
 			//remove occurances of three characters in a row
 			for i := 0; i < len(generatedPun)-2; i++ {

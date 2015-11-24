@@ -34,7 +34,7 @@ func read()(Dictionary){
 }
 
 func write(buffer bytes.Buffer){
-    fo,_ := os.Create("out.gob")
+    fo,_ := os.Create("assets/dictionary.gob")
     w := bufio.NewWriter(fo)
 
     w.Write(buffer.Bytes())

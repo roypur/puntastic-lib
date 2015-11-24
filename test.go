@@ -2,7 +2,7 @@ package main
 import("fmt"
        "puntastic")
 func main(){
-    Load("out.gob")
+    Load("dictionary.gob")
 
     fmt.Println(puntastic.GeneratePun("pun"))
 }
