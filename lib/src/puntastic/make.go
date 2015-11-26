@@ -70,7 +70,8 @@ func Get(input string) *Pun {
 		return &Pun{"Dictionary not loaded", ""}
 	}
 
-	input = strings.ToLower(input)
+	input = strings.TrimSpace(strings.ToLower(input))
+
 	if len(input) == 0 {
 		return &Pun{"Input field is empty!", ""}
 	}
