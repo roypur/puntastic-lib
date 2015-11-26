@@ -1,8 +1,8 @@
 package main
 import("fmt"
-       "puntastic")
+       "github.com/roypur/puntastic-lib/lib/src/puntastic")
 func main(){
-    Load("dictionary.gob")
+    puntastic.Load("dictionary.gob")
 
-    fmt.Println(puntastic.GeneratePun("pun"))
+    fmt.Println(puntastic.Get("pun"))
 }
